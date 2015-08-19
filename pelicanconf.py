@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 AUTHOR = u'Tad'
 SITENAME = u'Tadeze in ML'
-SITEURL = ''
+SITEURL = 'http://tadeze.github.io'
 
 PATH = 'content'
 
@@ -30,6 +30,10 @@ SOCIAL = (('You can add links in your config file', '#'),
           ('Another social link', '#'),)
 
 DEFAULT_PAGINATION = 5
+THEME = './theme/pelican-bootstrap3/'
+#RENDERING
+
+BOOTSTRAP_THEME='flatly'
 
 # Uncomment following line if you want document-relative URLs when developing
 #RELATIVE_URLS = True
