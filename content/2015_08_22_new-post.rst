@@ -1,0 +1,9 @@
+New post
+########
+
+:date: 2015-8-22 1:48
+:tags:
+:category:
+:slug: new-post
+:summary:
+:status: draft

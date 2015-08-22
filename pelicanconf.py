@@ -4,14 +4,14 @@ from __future__ import unicode_literals
 
 AUTHOR = u'Tadesse Zemicheal'
 SITENAME = u'Tadeze in ML'
-SITEURL = ''
+SITEURL = 'http://tadeze.github.io'
 
 PATH = 'content'
 
-TIMEZONE = 'Europe/Paris'
+TIMEZONE = 'America/Vancouver'
 
 DEFAULT_LANG = u'en'
-
+THEME='theme/voidy-bootstrap'
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
@@ -20,15 +20,15 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 # Blogroll
-LINKS = (('Pelican', 'http://getpelican.com/'),
-         ('Python.org', 'http://python.org/'),
+LINKS = (('R-blogger', 'http://r-blogger.com/'),
+         ('Hutch', 'http://hutch.net/'),
          ('Jinja2', 'http://jinja.pocoo.org/'),
-         ('You can modify those links in your config file', '#'),)
+         ('yhat blog', 'blog.yhathq.com'))
 
 # Social widget
-SOCIAL = (('You can add links in your config file', '#'),
-          ('Another social link', '#'),)
-
+SOCIAL = (('Twitter', 'https://twitter.com/tadeze'),
+          ('Github', 'http://github.com/tadeze'),
+	  ('Linkedin','https://www.linkedin.com/in/tadessehabtemariam'))	
 DEFAULT_PAGINATION = 5
 
 # Uncomment following line if you want document-relative URLs when developing
