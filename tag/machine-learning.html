@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Tad`s Blog in ML - Machine-Learning</title>
+        <link rel="stylesheet" href="http://tadeze.github.io/theme/css/main.css" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://tadeze.github.io/">Tad`s Blog in ML </a></h1>
+                <nav><ul>
+                    <li><a href="http://tadeze.github.io/category/metrics.html">metrics</a></li>
+                    <li><a href="http://tadeze.github.io/category/mycategory.html">MyCategory</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="http://tadeze.github.io/Metrics.html">Precision recall and ROC curves</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2016-05-14T17:49:00-07:00">
+                Published: Sat 14 May 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://tadeze.github.io/author/tad.html">Tad</a>
+        </address>
+<p>In <a href="http://tadeze.github.io/category/metrics.html">metrics</a>.</p>
+<p>tags: <a href="http://tadeze.github.io/tag/machine-learning.html">Machine-Learning</a> <a href="http://tadeze.github.io/tag/python.html">python</a> <a href="http://tadeze.github.io/tag/r.html">R</a> </p>
+</footer><!-- /.post-info --><h2>Precision and Recall</h2>
+<p>Precision: is the ration of true positive (tp) to all predicted positive (tp+fp).
+Recall: is the raetion of true postivies to all actual positives (tp+fn). 
+The F1 score is given by : 
+$F_1 = 2<em>\frac{p</em>r}{p+r}$ where $ p = \frac{t_p}{t_p + f_p}, r = \frac{t_p}{t_p + f_n}$
+The F1 metric weights recall and precision equally, and a good retrieval algorithm will maximize both precision and recall simultaneously. Thus, moderately good performance on both will be favored over extremely good performance on one and poor performance on the other.</p>
+<p>The area under the precision/recall (auPR) is very useful performance metric when true negative are much more common than true positive . auPR is similar to auROC. But aucROC doesn't do good job estimating the quality of your model when there is huge class imbalance, as incase of anomaly detection. </p>
+<ul>
+<li>PR curve focuses on prediction around the positive (rare) class. This is good for anomaly detection b/c predicting ture negative (TN) eis easy in anomaly detection. The hard part is predicting true negatives events.</li>
+<li>In aucROC baseline is 0.5 for no information.  But, in aucPR doesn't depend on the data itself. </li>
+<li>pRROC</li>
+</ul>
+<p><strong> Python function for roc/pr functions </strong> </p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sklearn.metric</span> <span class="kn">as</span> <span class="nn">mt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="c1"># for computing simple auc </span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;result.csv&#39;</span><span class="p">)</span>
+<span class="n">y_class</span> <span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span> <span class="c1">#class label </span>
+<span class="n">y_score</span> <span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="c1">#score for the class label</span>
+
+<span class="c1"># For auc score </span>
+<span class="n">auc_score</span> <span class="o">=</span> <span class="n">mt</span><span class="o">.</span><span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_class</span><span class="p">,</span><span class="n">y_score</span><span class="p">)</span> <span class="c1"># display value between 0 an 1</span>
+<span class="c1"># For plotting ROC curve and score </span>
+<span class="n">tpr</span><span class="p">,</span><span class="n">fpr</span><span class="p">,</span><span class="n">thre</span> <span class="o">=</span> <span class="n">mt</span><span class="o">.</span><span class="n">roc_curve</span><span class="p">(</span><span class="n">y_class</span><span class="p">,</span><span class="n">y_score</span><span class="p">,</span><span class="n">pos_label</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1">#plot curve</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span><span class="n">tpr</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1"># For precison recall graph/area</span>
+<span class="n">prec</span><span class="p">,</span><span class="n">rec</span><span class="p">,</span><span class="n">trh</span> <span class="o">=</span> <span class="n">mt</span><span class="o">.</span><span class="n">precision_recall_curve</span><span class="p">(</span><span class="n">y_class</span><span class="p">,</span><span class="n">y_score</span><span class="p">,</span><span class="n">pos_label</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rec</span><span class="p">,</span><span class="n">prec</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+
+<p>In R the package <code>ROCR</code> can do the operations </p>
+<div class="highlight"><pre><span></span><span class="kn">library</span><span class="p">(</span><span class="s">&#39;ROCR&#39;</span><span class="p">)</span>
+ds<span class="o">&lt;-</span>read.csv<span class="p">(</span><span class="s">&#39;result.csv&#39;</span><span class="p">)</span>
+y_class <span class="o">=</span> ds<span class="o">$</span><span class="kp">class</span>
+y_score <span class="o">=</span> ds<span class="o">$</span>score 
+pred <span class="o">=</span> prediction<span class="p">(</span>y_class<span class="p">,</span>y_score<span class="p">)</span>
+<span class="c1"># For auc </span>
+auc <span class="o">=</span> performance<span class="p">(</span>pred<span class="p">,</span><span class="s">&quot;auc&quot;</span><span class="p">)</span>
+<span class="c1"># For ROC curve </span>
+roc_curve <span class="o">=</span> performance<span class="p">(</span>pred<span class="p">,</span><span class="s">&quot;tpr&quot;</span><span class="p">,</span><span class="s">&quot;fpr&quot;</span><span class="p">)</span>
+plot<span class="p">(</span>tpr<span class="p">,</span>fpr<span class="p">)</span>
+<span class="c1">#For precision and recall </span>
+prec_rec <span class="o">=</span> performance<span class="p">(</span>pred<span class="p">,</span><span class="s">&quot;prec&quot;</span><span class="p">,</span><span class="s">&quot;rec&quot;</span><span class="p">)</span>
+plot<span class="p">(</span>prec_rec<span class="p">)</span>
+</pre></div>
+
+
+<p>Compute average precision (AP) from prediction scores
+This score corresponds to the area under the precision-recall curve</p>
+<h3>Precision-recall</h3>
+<p>if the graph has down L curve it is perfect precision-recall. ----|. While for the worst performance the graph will have flat L i.e. ___|</p>
+<h4>Analyzing perfect score for precision and auc</h4>                </article>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://r-blogger.com/">R-blogger</a></li>
+                            <li><a href="http://hutch.net/">Hutch</a></li>
+                            <li><a href="blog.yhathq.com">yhat blog</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="https://twitter.com/tadeze">Twitter</a></li>
+                            <li><a href="http://github.com/tadeze">Github</a></li>
+                            <li><a href="https://www.linkedin.com/in/tadessehabtemariam">Linkedin</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
